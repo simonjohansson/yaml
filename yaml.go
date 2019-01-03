@@ -15,6 +15,11 @@ import (
 	"sync"
 )
 
+var (
+	// Most struct in the wild use json so we use it too.
+	YAML_TAG = "json"
+)
+
 // MapSlice encodes and decodes as a YAML map.
 // The order of keys is preserved when encoding and decoding.
 type MapSlice []MapItem
@@ -327,7 +332,7 @@ func getStructInfo(st reflect.Type) (*structInfo, error) {
 
 		info := fieldInfo{Num: i}
 
-		tag := field.Tag.Get("yaml")
+		tag := field.Tag.Get(YAML_TAG)
 		if tag == "" && strings.Index(string(field.Tag), ":") < 0 {
 			tag = string(field.Tag)
 		}

@@ -1,3 +1,10 @@
+## NOTE:
+
+This fork of the yaml package uses "json" as the struct tag. This
+means that you do not need to maintain two sets of struct tags for
+basically the same thing (json and yaml) and third party structs which
+typically only specify json tag would work well with yaml as well.
+
 # YAML support for the Go language
 
 Introduction
@@ -77,27 +84,27 @@ type T struct {
 
 func main() {
         t := T{}
-    
+
         err := yaml.Unmarshal([]byte(data), &t)
         if err != nil {
                 log.Fatalf("error: %v", err)
         }
         fmt.Printf("--- t:\n%v\n\n", t)
-    
+
         d, err := yaml.Marshal(&t)
         if err != nil {
                 log.Fatalf("error: %v", err)
         }
         fmt.Printf("--- t dump:\n%s\n\n", string(d))
-    
+
         m := make(map[interface{}]interface{})
-    
+
         err = yaml.Unmarshal([]byte(data), &m)
         if err != nil {
                 log.Fatalf("error: %v", err)
         }
         fmt.Printf("--- m:\n%v\n\n", m)
-    
+
         d, err = yaml.Marshal(&m)
         if err != nil {
                 log.Fatalf("error: %v", err)
@@ -130,4 +137,3 @@ b:
   - 3
   - 4
 ```
-
