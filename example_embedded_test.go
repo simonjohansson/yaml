@@ -2,9 +2,9 @@ package yaml_test
 
 import (
 	"fmt"
+	"github.com/simonjohansson/yaml"
 	"log"
 
-	"gopkg.in/yaml.v2"
 )
 
 // An example showing how to unmarshal embedded

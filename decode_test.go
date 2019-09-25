@@ -2,6 +2,7 @@ package yaml_test
 
 import (
 	"errors"
+	"github.com/simonjohansson/yaml"
 	"io"
 	"math"
 	"reflect"
@@ -9,7 +10,6 @@ import (
 	"time"
 
 	. "gopkg.in/check.v1"
-	"gopkg.in/yaml.v2"
 )
 
 var unmarshalIntTest = 123
@@ -722,6 +722,24 @@ var unmarshalTests = []struct {
 		"a: 5.5\n",
 		&struct{ A jsonNumberT }{"5.5"},
 	},
+	// Works with json
+	{
+		"cc: 3\naa: 1",
+		&struct {
+			C int `json:"cc,omitempty"`
+			B int `json:"bb,omitempty"`
+			A int `json:"aa,omitempty"`
+		}{3, 0, 1},
+	},
+	{
+		"cc: 3\naaa: 1\nsayWhat: 100\n",
+		&struct {
+			C int `json:"cc,omitempty"`
+			B int `json:"bb,omitempty" yaml:"sayWhat,omitempty"`
+			A int `json:"aaa,omitempty"`
+		}{3, 100, 1},
+	},
+
 }
 
 type M map[interface{}]interface{}

@@ -3,6 +3,7 @@ package yaml_test
 import (
 	"bytes"
 	"fmt"
+	"github.com/simonjohansson/yaml"
 	"math"
 	"strconv"
 	"strings"
@@ -12,7 +13,6 @@ import (
 	"os"
 
 	. "gopkg.in/check.v1"
-	"gopkg.in/yaml.v2"
 )
 
 type jsonNumberT string
@@ -396,6 +396,31 @@ var marshalTests = []struct {
 	{
 		map[string]interface{}{"a": jsonNumberT("bogus")},
 		"a: bogus\n",
+	},
+	// Works with json
+	{
+		&struct {
+			C string `json:"c,omitempty"`
+			B string `json:"b,omitempty"`
+			A string `json:"a,omitempty"`
+		}{"","",""},
+		"{}\n",
+	},
+	{
+		&struct {
+			C int `json:"cc,omitempty"`
+			B int `json:"bb,omitempty"`
+			A int `json:"aa,omitempty"`
+		}{3,2,1},
+		"cc: 3\nbb: 2\naa: 1\n",
+	},
+	{
+		&struct {
+			C int `json:"cc,omitempty" yaml:"ccc"`
+			B int `json:"bb,omitempty" yaml:"bbb,omitempty"`
+			A int `json:"aa,omitempty"`
+		}{3,0,1},
+		"ccc: 3\naa: 1\n",
 	},
 }
 
